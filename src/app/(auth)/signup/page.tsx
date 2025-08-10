@@ -7,8 +7,6 @@ import * as z from 'zod';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { createUserProfile } from '@/lib/queries';
-import { signInWithGoogle } from '@/lib/auth';
-
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -49,7 +47,6 @@ export default function SignupPage() {
   const { toast } = useToast();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
   const form = useForm<z.infer<typeof signupSchema>>({
     resolver: zodResolver(signupSchema),
@@ -97,28 +94,7 @@ export default function SignupPage() {
       setIsLoading(false);
     }
   }
-  
-  async function handleGoogleSignIn() {
-    setIsGoogleLoading(true);
-    try {
-      await signInWithGoogle();
-       toast({
-        title: 'Login Successful',
-        description: 'Redirecting to your dashboard...',
-      });
-      // AuthProvider will handle redirect
-    } catch(error: any) {
-       toast({
-        variant: 'destructive',
-        title: 'Login Failed',
-        description: error.message || "Could not sign in with Google.",
-      });
-       setIsGoogleLoading(false);
-    }
-  }
-
-
-  return (
+    return (
     <Card className="mx-auto max-w-sm w-full">
       <CardHeader>
         <CardTitle className="text-xl">Sign Up</CardTitle>
@@ -189,11 +165,8 @@ export default function SignupPage() {
                   </FormItem>
                 )}
               />
-            <Button type="submit" className="w-full" disabled={isLoading || isGoogleLoading}>
+            <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? 'Creating Account...' : 'Create an account'}
-            </Button>
-            <Button variant="outline" className="w-full" type="button" onClick={handleGoogleSignIn} disabled={isLoading || isGoogleLoading}>
-               <ChromeIcon className="mr-2 h-4 w-4" /> {isGoogleLoading ? 'Redirecting...' : 'Sign up with Google'}
             </Button>
           </form>
         </Form>
