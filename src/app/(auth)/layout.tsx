@@ -26,13 +26,15 @@ export default function AuthLayout({
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 p-4">
-       <div className="absolute top-8 left-8">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4 relative">
+       <div className="absolute top-4 left-4 sm:top-8 sm:left-8">
         <Link href="/">
           <Logo />
         </Link>
       </div>
-      {children}
+      <div className="w-full max-w-sm">
+        {children}
+      </div>
     </div>
   );
 }

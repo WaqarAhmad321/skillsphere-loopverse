@@ -6,7 +6,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
-import { signInWithGoogle } from '@/lib/auth';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -39,7 +38,6 @@ export default function LoginPage() {
   const { toast } = useToast();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -68,26 +66,6 @@ export default function LoginPage() {
       setIsLoading(false);
     }
   }
-  
-  async function handleGoogleSignIn() {
-    setIsGoogleLoading(true);
-    try {
-      await signInWithGoogle();
-       toast({
-        title: 'Login Successful',
-        description: 'Redirecting to your dashboard...',
-      });
-      // AuthProvider will handle redirect
-    } catch(error: any) {
-       toast({
-        variant: 'destructive',
-        title: 'Login Failed',
-        description: error.message || "Could not sign in with Google.",
-      });
-      setIsGoogleLoading(false);
-    }
-  }
-
 
   return (
     <Card className="mx-auto max-w-sm w-full">
@@ -126,11 +104,8 @@ export default function LoginPage() {
                 </FormItem>
               )}
             />
-             <Button type="submit" className="w-full" disabled={isLoading || isGoogleLoading}>
+             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? 'Logging in...' : 'Login'}
-            </Button>
-            <Button variant="outline" className="w-full" type="button" onClick={handleGoogleSignIn} disabled={isLoading || isGoogleLoading}>
-              <ChromeIcon className="mr-2 h-4 w-4" /> {isGoogleLoading ? 'Redirecting...' : 'Login with Google'}
             </Button>
           </form>
         </Form>
