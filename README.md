@@ -22,17 +22,22 @@ SkillVerse is a next-generation, AI-powered mentorship platform designed to conn
 
 ## Running the Project
 
-1.  **Install dependencies**:
+0. ** Add Gemini api key and firebase config **
+GEMINI_API_KEY
+
+2.  **Install dependencies**:
     ```bash
     npm install
     ```
-2.  **Run the development server**:
+3.  **Run the development server**:
     ```bash
     npm run dev
     ```
-3.  **Run the Genkit development server (in a separate terminal)**:
-    ```bash
-    npm run genkit:dev
-    ```
 
 Open [http://localhost:9002](http://localhost:9002) with your browser to see the result.
+
+## Demo accounts
+
+### Learner: learner@gmail.com | password123
+### Mentor: mentor@gmail.com | password123
+### Admin: admin@gmail.com | admin123
